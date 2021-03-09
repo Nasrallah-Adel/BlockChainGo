@@ -5,7 +5,13 @@ func CreateBlock(data BlockData, previousHash []byte) Block {
 	block := Block{
 		Data:         data,
 		PreviousHash: previousHash,
+		Nonce:        0,
 	}
-	block.GenerateHash()
+
+	pow := NewProof(&block)
+	nonce, hash := pow.Run()
+	block.Hash = hash[:]
+	block.Nonce = nonce
+	//block.GenerateHash()
 	return block
 }
